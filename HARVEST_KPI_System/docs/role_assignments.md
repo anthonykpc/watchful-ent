@@ -1,114 +1,101 @@
 # Role Assignments — Who Enters What
 
-This is the operating rhythm for the KPI system. Each role owns one
-Form and is responsible for keeping its KPIs current.
+Each staff member has their own Excel log workbook. Open it from
+SharePoint/OneDrive, add rows, save. The master workbook reads from
+all five logs via Power Query.
 
 ## Quick reference
 
-| Role | Owns Form | Cadence | Time per submission |
+| Role | Log workbook | Cadence | ~Time per entry |
 |---|---|---|---|
-| Logistics Manager | Kitchen Operations Log | Weekly + event-based | ~5 min weekly |
-| Culinary Manager | Culinary & Training Log | Per workshop/training | ~3 min per event |
-| Community Outreach Specialist | Community Engagement Log | Per event | ~3 min per event |
-| Director | Director & Partnership Log | Monthly + event-based | ~10 min monthly |
-| UAC Partner (external) | UAC Farmer Engagement Log | Monthly | ~10 min monthly |
+| Logistics Manager | Kitchen_Operations_Log.xlsx | Weekly + incidents | ~5 min/week |
+| Culinary Manager | Culinary_Training_Log.xlsx | Per workshop/training | ~3 min/event |
+| Community Outreach Specialist | Community_Engagement_Log.xlsx | Per event | ~3 min/event |
+| Director | Director_Partnership_Log.xlsx | Monthly + event-based | ~10 min/month |
+| Director (for UAC) | UAC_Farmer_Engagement_Log.xlsx | Monthly | ~10 min/month |
 
-The Director also reviews the Executive Summary dashboard before each
-JSC meeting and refreshes Power Query connections.
-
----
-
-## By role — detail
-
-### Logistics Manager
-
-**Form**: Kitchen Operations Log
-
-**What you enter, weekly:**
-- Member counts (active members, new members this week)
-- Equipment status (any equipment offline, repair needs)
-- Incidents (safety, sanitation, member conflicts)
-- Food waste diverted this week (lbs)
-- Composted this week (lbs)
-
-**What you do NOT enter:**
-- Kitchen rental hours — these come from the Food Corridor CSV. Do
-  not duplicate.
-
-**Tools you also touch:**
-- Food Corridor (export the kitchen rentals CSV monthly and drop it
-  into the Excel workbook's `Food Corridor Import` tab)
+The Director also refreshes the master workbook before each JSC meeting.
 
 ---
 
-### Culinary Manager
+## By role
 
-**Form**: Culinary & Training Log
+### Logistics Manager — Kitchen_Operations_Log.xlsx
 
-**What you enter, per workshop or training session:**
-- Workshop type (ServSafe, business building, marketing, capital, other)
-- Date and duration
-- Attendance count
-- ServSafe pass/fail outcomes (when applicable)
-- Technical assistance topic and recipient business (for 1:1 sessions)
-- Food captured for nutritional/wellness demos (lbs, $ value)
+**Weekly:**
+- Active member count, new members this week
+- Equipment status, any incidents
+- Food waste diverted (lbs), composted (lbs)
+
+**Do NOT enter here:** Kitchen rental hours — those come from the
+Food Corridor CSV in the master workbook.
+
+**Monthly task:** Export the Food Corridor CSV and give it to the
+Director (or drop it into the master workbook's Food Corridor Import tab).
 
 ---
 
-### Community Outreach Specialist
+### Culinary Manager — Culinary_Training_Log.xlsx
 
-**Form**: Community Engagement Log
+**Per workshop, training, or TA session:**
+- Event type, title, curriculum (for health demos), duration, attendance
+- ServSafe pass/fail counts (when applicable)
+- 1:1 TA topic and recipient business
+- RD in-kind hours (hours Registered Dietitians provided free demos)
+- Food captured for demos (lbs, $ value)
 
-**What you enter, per event:**
-- Event name, date, type (teaching kitchen, RD workshop, tour, partner event, etc.)
-- Attendance count
-- Volunteer hours contributed
-- Organizations engaged (multi-select from existing list, or add new)
-- Multilingual / cultural flag and language
-- Survey results (avg satisfaction 1–5, avg learning outcomes 1–5)
+**New fields:**
+- **Curriculum** — name of the curriculum used for health/nutrition
+  demos (dropdown with common options, or type a new one). This feeds
+  the "Health demo curriculums delivered" KPI.
+- **RD_InKind_Hours** — hours the RD provided demos at no charge to
+  the community. This is the in-kind hour tracking KPI.
+
+---
+
+### Community Outreach Specialist — Community_Engagement_Log.xlsx
+
+**Per event (two tabs to fill in):**
+
+**Log tab** — one row per event:
+- Event name, date, type, attendance
+- Volunteer hours, orgs engaged, sector count
+- Multilingual/cultural flag and language
 - Food recovery to Bridges or other providers (lbs, recipient)
-- Direct service provider presence (if recurring)
+- Direct service provider presence
+
+**Survey Responses tab** — one row per survey question per event:
+- Event name, survey instrument name
+- Question text, response text, numeric score
+- Add new survey questions as new rows — the structure never changes.
 
 ---
 
-### Director
+### Director — Director_Partnership_Log.xlsx
 
-**Form**: Director & Partnership Log
-
-**What you enter, monthly:**
-- JSC meetings held this month (date, agenda summary)
-- CAB recruitment activity (members added, sector)
+**Monthly:**
+- JSC meetings held (date, notes)
+- CAB recruitment (members added, sector)
 - CAB meetings held
-- Professional development activity (Shared Kitchen Summit, ServSafe Manager Cert, community presentations)
+- Professional development activity
+- Earned revenue % (quarterly)
+- Avg % sales increase for members (quarterly)
 
-**What you enter, as it happens (event-based):**
-- New grants secured ($ amount, funder, period)
-- New partnerships executed
-- New institutional connections (Rutgers, NPS, Audible, etc.)
-- New institutional purchase order ($, vendor, institution)
+**As it happens:**
+- Grants, partnerships, sponsorships ($ amount, funder, period)
+- Institutional connections (Rutgers, NPS, Audible, etc.)
+- Purchase orders ($ value, institution)
+- Menu placements
 
-**What you also do:**
-- Review Executive Summary dashboard before each JSC meeting
-- Hit "Refresh All" in the Excel workbook (Data tab → Refresh All) before screenshotting for the supervisor / JSC
-- Update `% earned revenue` quarterly from financials
-- Update `Avg % sales increase for members` quarterly from member-reported data
+### Director — UAC_Farmer_Engagement_Log.xlsx
 
----
+**Monthly (entered by Director on behalf of UAC):**
+- One row per farm per month
+- Produce moved (type, lbs, $), origin, distribution destinations
+- Value-added products
+- Farmer demographics
 
-### UAC Partner
-
-**Form**: UAC Farmer Engagement Log
-
-**You don't need an RWJBH login.** The form is shared as a public link
-and works on phones. You can submit it from a tractor.
-
-**What you enter, monthly:**
-- Farms engaged this month (farm name, location, contact)
-- Produce moved (type, lbs, $ value)
-- Origin (which farm/region)
-- Distribution destinations (which institution, org, or community)
-- Farmers using HARVEST for value-added products (which farm, what product)
-- Farmer demographics (rolled-up counts for the period, not per-person identifiers)
+Source: monthly call or email with the UAC contact.
 
 ---
 
@@ -116,23 +103,15 @@ and works on phones. You can submit it from a tractor.
 
 | When | Who | What |
 |---|---|---|
-| Weekly | Logistics Manager | Submit Kitchen Operations Log |
-| Per event | Culinary / Outreach Mgrs | Submit relevant Form within 48 hours |
-| Monthly, 1st week | UAC Partner | Submit UAC Farmer Engagement Log for prior month |
-| Monthly, 1st week | Director | Submit Director & Partnership Log; export Food Corridor CSV and drop into Excel |
-| Monthly, 2nd week | Director | Refresh workbook, review dashboards |
-| Before each JSC meeting | Director | Refresh, screenshot 2026 Goals + Executive Summary |
-| Quarterly | Director | Update SROI placeholders, % earned revenue, member sales growth |
-| Annually | Director | Performance review using 2026 Goals tab |
+| Weekly | Logistics Manager | Add rows to Kitchen Operations Log |
+| Per event | Culinary / Outreach | Add rows within 48 hours |
+| Monthly, 1st week | Director | Add rows to Director + UAC logs; get Food Corridor CSV |
+| Monthly, 2nd week | Director | Open master workbook, Data > Refresh All, review dashboards |
+| Before each JSC | Director | Refresh, screenshot 2026 Goals + Executive Summary |
+| Quarterly | Director | Update earned revenue %, member sales growth |
 
-## Overdue alerts
+## Monthly reminders
 
-A Power Automate flow (see `schemas/power_automate_flows.md`) emails the
-owner role when a Form hasn't been submitted within its expected cadence
-window:
-- Weekly Form: alert after 10 days of silence
-- Monthly Form: alert after 35 days
-- Quarterly Form: alert after 100 days
-
-The alert is to the owner only — it doesn't escalate to the Director
-unless a second window passes.
+A Power Automate flow (or recurring calendar event) emails all staff
+on the 1st of each month: "Time to update your KPI log." Setup in
+`schemas/monthly_reminders.md`.

@@ -1,148 +1,133 @@
 # HARVEST KPI Catalog
 
-This is the single source of truth for every metric HARVEST tracks.
-Every Form question, SharePoint List column, and dashboard pivot
-derives from this file. When a KPI changes, change it here first, then
-propagate to the schemas and the workbook.
+Single source of truth for every metric HARVEST tracks. The master
+workbook's KPI Catalog tab mirrors this file. When a KPI changes,
+change it here first.
 
 ## How to read this catalog
 
-Each row is one KPI. Columns are the **tagging schema** — every KPI
-carries values for all of them.
+Each row is one KPI. Columns:
 
-- **KPI** — short name used on dashboards
+- **KPI** — short name on dashboards
 - **Definition** — one-line plain-English description
 - **Unit** — count, %, $, lbs, hours, etc.
-- **Audience** — primary audience category (also drives which List the data lands in)
-- **OFSA Dimension(s)** — one or more of Availability / Access / Utilization / Stability / Agency / Sustainability
-- **Food System Sector** — Production / Aggregation / Processing / Distribution / Retail-Consumption / Recovery-Waste
-- **Partner Sector** — Healthcare / Agriculture / Education / Government / Philanthropy / Community-Based Org / Private Sector / Food Enterprise
-- **Cadence** — Real-time / Weekly / Monthly / Quarterly / Annual
+- **Audience** — primary audience category
+- **OFSA Dimension(s)** — one or more of the Six Dimensions (multi-select)
+- **Food System Sector** — where in the food chain
+- **Partner Sector** — sector of the partner/audience
+- **Cadence** — how often data is entered
 - **Lead Role** — HARVEST Lead / UAC Lead / Joint
-- **Data Source** — Form submission / Food Corridor CSV / Manual entry / System-calculated
-- **2026 Target** — numeric goal if tied to a performance goal, else blank
-- **Owner Role** — Director / Culinary Manager / Logistics Manager / Community Outreach Specialist / UAC Partner
-- **Source Form** — which of the 5 Forms feeds this KPI
-- **Destination List** — which SharePoint List stores the row
+- **Data Source** — which log workbook (or system-calculated)
+- **2026 Target** — numeric goal if tied to a performance goal
+- **Owner Role** — who enters this data
+- **Source Log** — which .xlsx file in the logs/ folder
 - **Status** — Active / Planned — methodology TBD / Retired
-
-A KPI tagged **Planned — methodology TBD** appears in the catalog
-and is documented for the OFSA logic model phase, but is suppressed
-from the Executive Summary and Goals dashboards until a measurement
-methodology exists.
 
 ---
 
 ## Food Entrepreneurs
 
-| KPI | Definition | Unit | OFSA Dimension(s) | Food System Sector | Partner Sector | Cadence | Lead Role | Data Source | 2026 Target | Owner Role | Source Form | Destination List | Status |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Entrepreneurs engaged | Unique individuals reached via outreach, intake, or info session | count | Agency | Processing | Food Enterprise | Monthly | HARVEST Lead | Form submission | 40 | Community Outreach Specialist | Community Engagement Log | Active |
-| Entrepreneurs converted to renting members | Engaged entrepreneurs who signed a kitchen rental agreement | count | Agency; Availability | Processing | Food Enterprise | Monthly | HARVEST Lead | Form submission | 5–10 | Logistics Manager | Kitchen Operations Log | Active |
-| % members achieving ServSafe through HARVEST | Members who pass ServSafe Food Handler or Manager via HARVEST programming | % | Utilization | Processing | Food Enterprise | Per training | HARVEST Lead | Form submission | 100% of cohort | Culinary Manager | Culinary & Training Log | Active |
-| Avg % sales increase for kitchen members | Year-over-year revenue change for members using the kitchen ≥6 months | % | Stability; Agency | Processing | Food Enterprise | Quarterly | HARVEST Lead | Manual entry | Baseline year | Director | Director & Partnership Log | Active |
-| Businesses supported | Distinct member businesses receiving any HARVEST service in the period | count | Agency | Processing | Food Enterprise | Monthly | HARVEST Lead | System-calculated | 5–10 | Director | Food Entrepreneurs List | Active |
-| Workforce dev seminars held | Seminars on business building, food safety, marketing, capital access | count | Utilization; Agency | Processing | Education | Per event | HARVEST Lead | Form submission | 6 | Culinary Manager | Culinary & Training Log | Active |
-| Kitchen hours rented | Total billable kitchen hours rented in the period | hours | Availability; Stability | Processing | Food Enterprise | Real-time | HARVEST Lead | Food Corridor CSV | 1,500 | Logistics Manager | Kitchen Operations Log | Active |
-| Jobs created by member businesses | FTEs and PTEs hired by member businesses, self-reported | count | Stability; Agency | Processing | Food Enterprise | Quarterly | HARVEST Lead | Form submission |  | Director | Food Entrepreneurs List | Active |
-| Growth of businesses by hours rented | Trend of avg hours/member over time (longitudinal) | hours | Stability | Processing | Food Enterprise | Quarterly | HARVEST Lead | System-calculated |  | Director | Food Entrepreneurs List | Active |
-| Businesses buying local produce via UAC | Member businesses that sourced produce from UAC channels in the period | count | Access; Sustainability | Aggregation | Agriculture | Monthly | Joint | Form submission | 3 | UAC Partner | UAC Farmer Engagement Log | Active |
-| Events showcasing local entrepreneurs | Public-facing events featuring member businesses (tastings, pop-ups, demos) | count | Agency | Retail-Consumption | Food Enterprise | Per event | HARVEST Lead | Form submission | 4 | Community Outreach Specialist | Community Engagement Log | Active |
-| Technical assistance sessions delivered | 1:1 sessions for business building, capital access, marketing | count | Utilization; Agency | Processing | Food Enterprise | Per session | HARVEST Lead | Form submission | 30 | Culinary Manager | Culinary & Training Log | Active |
-| Businesses receiving wellness coaching | Member businesses participating in HARVEST wellness/nutrition coaching | count | Utilization | Processing | Healthcare | Per session | HARVEST Lead | Form submission |  | Community Outreach Specialist | Food Entrepreneurs List | Active |
+| KPI | Definition | Unit | OFSA Dimension(s) | Cadence | 2026 Target | Owner | Source Log | Status |
+|---|---|---|---|---|---|---|---|---|
+| Entrepreneurs engaged | Unique individuals reached | count | Agency | Monthly | 40 | Community Outreach | Community_Engagement_Log.xlsx | Active |
+| Entrepreneurs converted to members | Signed a kitchen rental agreement | count | Agency; Availability | Monthly | 8 | Logistics Manager | Kitchen_Operations_Log.xlsx | Active |
+| % members achieving ServSafe | Pass ServSafe via HARVEST | % | Utilization | Per training | 100% | Culinary Manager | Culinary_Training_Log.xlsx | Active |
+| Avg % sales increase for members | YoY revenue change for members >=6 months | % | Stability; Agency | Quarterly | — | Director | Director_Partnership_Log.xlsx | Active |
+| Businesses supported | Distinct businesses receiving any service | count | Agency | Monthly | 8 | Director | System-calculated | Active |
+| Workforce dev seminars held | Seminars on business building, safety, marketing | count | Utilization; Agency | Per event | 6 | Culinary Manager | Culinary_Training_Log.xlsx | Active |
+| Kitchen hours rented | Total billable kitchen hours | hours | Availability; Stability | Real-time | 1,500 | Logistics Manager | Food Corridor CSV | Active |
+| Jobs created by member businesses | FTEs and PTEs hired (self-reported) | count | Stability; Agency | Quarterly | — | Director | Director_Partnership_Log.xlsx | Active |
+| Businesses buying local produce via UAC | Members sourcing produce from UAC | count | Access; Sustainability | Monthly | 3 | Director | UAC_Farmer_Engagement_Log.xlsx | Active |
+| Events showcasing local entrepreneurs | Public events featuring members | count | Agency | Per event | 4 | Community Outreach | Community_Engagement_Log.xlsx | Active |
+| Technical assistance sessions | 1:1 sessions | count | Utilization; Agency | Per session | 30 | Culinary Manager | Culinary_Training_Log.xlsx | Active |
+| Businesses receiving wellness coaching | Members in wellness coaching | count | Utilization | Per session | — | Culinary Manager | Culinary_Training_Log.xlsx | Active |
+| **Health demo curriculums delivered** | **Distinct curriculums used in health/nutrition demos** | **count** | **Utilization; Agency** | **Per event** | **—** | **Culinary Manager** | **Culinary_Training_Log.xlsx** | **Active** |
 
 ---
 
 ## Institution
 
-| KPI | Definition | Unit | OFSA Dimension(s) | Food System Sector | Partner Sector | Cadence | Lead Role | Data Source | 2026 Target | Owner Role | Source Form | Destination List | Status |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| $ purchasing orders from HARVEST/UAC vendors | Total $ value of purchase orders by institutions for HARVEST/UAC products | $ | Access; Availability | Distribution | Healthcare | Monthly | Joint | Form submission |  | Director | Institution List | Active |
-| HARVEST-produced items in institutional menus | Distinct HARVEST/UAC items appearing on institutional menus | count | Access; Availability | Retail-Consumption | Healthcare | Quarterly | HARVEST Lead | Form submission |  | Director | Institution List | Active |
-| Connections with other institutions | Active relationships with Rutgers, NPS, Audible, etc. | count | Stability; Access | n/a | Education | Quarterly | HARVEST Lead | Form submission | 4 | Director | Institution List | Active |
-| Partnerships for technical assistance | External institutions providing TA to HARVEST members | count | Utilization; Stability | n/a | Education | Quarterly | Joint | Form submission | 3 | Director | Institution List | Active |
-| Reduction in readmission costs through HARVEST | $ reduction in RWJBH patient readmission costs attributable to HARVEST programming | $ | Utilization; Access | Retail-Consumption | Healthcare | Annual | Joint | Manual entry |  | Director | Institution List | Planned — methodology TBD |
+| KPI | Definition | Unit | OFSA Dimension(s) | Cadence | 2026 Target | Owner | Source Log | Status |
+|---|---|---|---|---|---|---|---|---|
+| $ purchasing orders from HARVEST/UAC | Total $ value of institutional POs | $ | Access; Availability | Monthly | — | Director | Director_Partnership_Log.xlsx | Active |
+| HARVEST items on institutional menus | Distinct items on menus | count | Access; Availability | Quarterly | — | Director | Director_Partnership_Log.xlsx | Active |
+| Cross-institution connections | Active relationships | count | Stability; Access | Quarterly | 4 | Director | Director_Partnership_Log.xlsx | Active |
+| TA partnerships | Institutions providing TA to members | count | Utilization; Stability | Quarterly | 3 | Director | Director_Partnership_Log.xlsx | Active |
+| Reduction in readmission costs | RWJBH readmission $ reduction | $ | Utilization; Access | Annual | — | Director | Director_Partnership_Log.xlsx | Planned — methodology TBD |
 
 ---
 
 ## Community Organizations
 
-| KPI | Definition | Unit | OFSA Dimension(s) | Food System Sector | Partner Sector | Cadence | Lead Role | Data Source | 2026 Target | Owner Role | Source Form | Destination List | Status |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Community orgs engaged at HARVEST | Distinct organizations participating in any HARVEST activity in the period | count | Agency; Access | n/a | Community-Based Org | Monthly | HARVEST Lead | Form submission | 15 | Community Outreach Specialist | Community Orgs List | Active |
-| Event participants | Total participants across teaching kitchen, RD workshops, etc. | count | Utilization; Agency | n/a | Community-Based Org | Per event | HARVEST Lead | Form submission | 300 | Community Outreach Specialist | Community Orgs List | Active |
-| Community volunteer hours | Hours contributed by community volunteers at HARVEST | hours | Agency; Stability | n/a | Community-Based Org | Per event | HARVEST Lead | Form submission |  | Community Outreach Specialist | Community Orgs List | Active |
-| Internal & external community events run by staff | Events run by HARVEST staff (on-site and external) | count | Agency | n/a | Community-Based Org | Per event | HARVEST Lead | Form submission | 24 | Community Outreach Specialist | Community Orgs List | Active |
-| Event survey — satisfaction | Avg satisfaction rating from post-event survey (1–5) | rating | Utilization | n/a | Community-Based Org | Per event | HARVEST Lead | Form submission | ≥ 4.0 | Community Outreach Specialist | Community Orgs List | Active |
-| Event survey — learning outcomes | Avg self-reported learning rating from post-event survey (1–5) | rating | Utilization | n/a | Community-Based Org | Per event | HARVEST Lead | Form submission | ≥ 4.0 | Community Outreach Specialist | Community Orgs List | Active |
-| Tours given at HARVEST | Total facility tours given to external visitors | count | Agency | n/a | Community-Based Org | Per event | HARVEST Lead | Form submission | 24 | Community Outreach Specialist | Community Orgs List | Active |
-| Community orgs hosting events at HARVEST | External orgs using HARVEST as their venue | count | Agency; Access | n/a | Community-Based Org | Per event | HARVEST Lead | Form submission | 6 | Community Outreach Specialist | Community Orgs List | Active |
-| Sectors engaged at HARVEST | Distinct partner sectors represented across all engagements | count | Stability | n/a | Community-Based Org | Quarterly | HARVEST Lead | System-calculated | 5 | Director | Community Orgs List | Active |
-| Multilingual / cultural events | Events delivered in a non-English language or built around a specific cultural tradition | count | Agency; Access | n/a | Community-Based Org | Per event | HARVEST Lead | Form submission | 6 | Community Outreach Specialist | Community Orgs List | Active |
-| Food recovery to service providers | lbs of food diverted to Bridges and other direct service providers | lbs | Access; Sustainability | Recovery-Waste | Community-Based Org | Per event | HARVEST Lead | Form submission | 500 | Community Outreach Specialist | Community Orgs List | Active |
-| Direct service providers with presence at HARVEST | Organizations like Bridges with a recurring on-site presence | count | Access | n/a | Community-Based Org | Quarterly | HARVEST Lead | Form submission | 3 | Community Outreach Specialist | Community Orgs List | Active |
+| KPI | Definition | Unit | OFSA Dimension(s) | Cadence | 2026 Target | Owner | Source Log | Status |
+|---|---|---|---|---|---|---|---|---|
+| Community orgs engaged | Distinct orgs participating | count | Agency; Access | Monthly | 15 | Community Outreach | Community_Engagement_Log.xlsx | Active |
+| Event participants | Total participants | count | Utilization; Agency | Per event | 300 | Community Outreach | Community_Engagement_Log.xlsx | Active |
+| Community volunteer hours | Hours from community volunteers | hours | Agency; Stability | Per event | — | Community Outreach | Community_Engagement_Log.xlsx | Active |
+| Community events run by staff | Events by HARVEST staff | count | Agency | Per event | 24 | Community Outreach | Community_Engagement_Log.xlsx | Active |
+| **Survey feedback** | **Row-per-question survey data** | **mixed** | **Utilization** | **Per event** | **—** | **Community Outreach** | **Community_Engagement_Log.xlsx** | **Active** |
+| Tours given | Facility tours | count | Agency | Per event | 24 | Community Outreach | Community_Engagement_Log.xlsx | Active |
+| Orgs hosting events at HARVEST | External orgs using HARVEST | count | Agency; Access | Per event | 6 | Community Outreach | Community_Engagement_Log.xlsx | Active |
+| Sectors engaged | Distinct partner sectors | count | Stability | Quarterly | 5 | Director | Community_Engagement_Log.xlsx | Active |
+| Multilingual / cultural events | Non-English or cultural events | count | Agency; Access | Per event | 6 | Community Outreach | Community_Engagement_Log.xlsx | Active |
+| Food recovery to providers (lbs) | lbs diverted to Bridges etc. | lbs | Access; Sustainability | Per event | 500 | Community Outreach | Community_Engagement_Log.xlsx | Active |
+| DSPs with presence at HARVEST | Recurring on-site DSPs | count | Access | Quarterly | 3 | Community Outreach | Community_Engagement_Log.xlsx | Active |
+| **RD in-kind hours** | **Hours RDs provided free demos to community** | **hours** | **Utilization; Access** | **Per event** | **—** | **Culinary Manager** | **Culinary_Training_Log.xlsx** | **Active** |
 
 ---
 
 ## Investors / Funders
 
-| KPI | Definition | Unit | OFSA Dimension(s) | Food System Sector | Partner Sector | Cadence | Lead Role | Data Source | 2026 Target | Owner Role | Source Form | Destination List | Status |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Grants and partnerships secured | New grants or formal partnerships executed in the period | count | Stability | n/a | Philanthropy | Per event | HARVEST Lead | Form submission | 4 | Director | Investors-Funders List | Active |
-| % earned revenue | Earned revenue (rentals, events, sales) as % of total revenue | % | Stability; Sustainability | Processing | Philanthropy | Quarterly | HARVEST Lead | Manual entry |  | Director | Investors-Funders List | Active |
-| Funders and sponsors | Distinct active funders/sponsors in the period | count | Stability | n/a | Philanthropy | Quarterly | HARVEST Lead | Form submission |  | Director | Investors-Funders List | Active |
-| Leveraged capital | $ in matching grants, investments, in-kind contributions leveraged by HARVEST | $ | Stability; Sustainability | n/a | Philanthropy | Quarterly | HARVEST Lead | Form submission |  | Director | Investors-Funders List | Active |
-| Social return on investment (SROI) | Ratio of social value created to dollars invested | ratio | Sustainability; Stability | n/a | Philanthropy | Annual | HARVEST Lead | Manual entry |  | Director | Investors-Funders List | Planned — methodology TBD |
+| KPI | Definition | Unit | OFSA Dimension(s) | Cadence | 2026 Target | Owner | Source Log | Status |
+|---|---|---|---|---|---|---|---|---|
+| Grants and partnerships secured | New grants or partnerships | count | Stability | Per event | 4 | Director | Director_Partnership_Log.xlsx | Active |
+| % earned revenue | Earned revenue as % of total | % | Stability; Sustainability | Quarterly | — | Director | Director_Partnership_Log.xlsx | Active |
+| Funders and sponsors | Distinct active funders | count | Stability | Quarterly | — | Director | Director_Partnership_Log.xlsx | Active |
+| Leveraged capital ($) | Matching grants, investments | $ | Stability; Sustainability | Quarterly | — | Director | Director_Partnership_Log.xlsx | Active |
+| SROI | Social return on investment | ratio | Sustainability; Stability | Annual | — | Director | Director_Partnership_Log.xlsx | Planned — methodology TBD |
+| JSC meetings held | JSC meetings convened | count | Stability | Per event | 10 | Director | Director_Partnership_Log.xlsx | Active |
+| CAB members onboarded | CAB members across sectors | count | Agency; Stability | Per event | 10 | Director | Director_Partnership_Log.xlsx | Active |
+| CAB meetings held | CAB meetings convened | count | Agency; Stability | Per event | 2 | Director | Director_Partnership_Log.xlsx | Active |
+| Director community presentations | Community presentations | count | Agency | Per event | 4 | Director | Director_Partnership_Log.xlsx | Active |
 
 ---
 
 ## Farmers
 
-| KPI | Definition | Unit | OFSA Dimension(s) | Food System Sector | Partner Sector | Cadence | Lead Role | Data Source | 2026 Target | Owner Role | Source Form | Destination List | Status |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Farms engaged | Distinct farms in active relationship with HARVEST/UAC | count | Agency; Stability | Production | Agriculture | Monthly | UAC Lead | Form submission | 4 | UAC Partner | Farmers List | Active |
-| $ farmer business generated through HARVEST | Total $ value of farmer sales attributable to HARVEST/UAC channels | $ | Stability; Access | Aggregation | Agriculture | Monthly | UAC Lead | Form submission |  | UAC Partner | Farmers List | Active |
-| Types of produce moved | Distinct produce types moved through HARVEST/UAC | count | Availability | Aggregation | Agriculture | Monthly | UAC Lead | Form submission |  | UAC Partner | Farmers List | Active |
-| lbs of produce moved | Total lbs of produce aggregated/distributed via HARVEST/UAC | lbs | Availability; Access | Aggregation | Agriculture | Monthly | UAC Lead | Form submission |  | UAC Partner | Farmers List | Active |
-| Produce distribution destinations | Where produce was distributed (city/org/recipient type) | text/list | Access | Distribution | Agriculture | Monthly | UAC Lead | Form submission |  | UAC Partner | Farmers List | Active |
-| Produce origin | Where produce came from (farm/region) | text/list | Availability; Sustainability | Production | Agriculture | Monthly | UAC Lead | Form submission |  | UAC Partner | Farmers List | Active |
-| Farmers making value-added products | Farmers using HARVEST to produce value-added products | count | Agency; Stability | Processing | Agriculture | Monthly | UAC Lead | Form submission |  | UAC Partner | Farmers List | Active |
-| Farmer demographics | Counts by race/ethnicity, gender, age band, geography | counts | Agency | Production | Agriculture | Quarterly | UAC Lead | Form submission |  | UAC Partner | Farmers List | Active |
+| KPI | Definition | Unit | OFSA Dimension(s) | Cadence | 2026 Target | Owner | Source Log | Status |
+|---|---|---|---|---|---|---|---|---|
+| Farms engaged | Distinct farms in active relationship | count | Agency; Stability | Monthly | 4 | Director | UAC_Farmer_Engagement_Log.xlsx | Active |
+| $ farmer business via HARVEST | Total $ farmer sales | $ | Stability; Access | Monthly | — | Director | UAC_Farmer_Engagement_Log.xlsx | Active |
+| Types of produce moved | Distinct produce types | count | Availability | Monthly | — | Director | UAC_Farmer_Engagement_Log.xlsx | Active |
+| lbs of produce moved | Total lbs aggregated/distributed | lbs | Availability; Access | Monthly | — | Director | UAC_Farmer_Engagement_Log.xlsx | Active |
+| Farmers making value-added products | Farmers using HARVEST for value-added | count | Agency; Stability | Monthly | — | Director | UAC_Farmer_Engagement_Log.xlsx | Active |
 
 ---
 
 ## Environmental Sustainability
 
-| KPI | Definition | Unit | OFSA Dimension(s) | Food System Sector | Partner Sector | Cadence | Lead Role | Data Source | 2026 Target | Owner Role | Source Form | Destination List | Status |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Food waste diversion | lbs of food waste diverted from landfill (any pathway) | lbs | Sustainability | Recovery-Waste | Community-Based Org | Monthly | HARVEST Lead | Form submission | 1,000 | Logistics Manager | Environmental List | Active |
-| Composted lbs | lbs of food waste composted | lbs | Sustainability | Recovery-Waste | Community-Based Org | Monthly | HARVEST Lead | Form submission |  | Logistics Manager | Environmental List | Active |
-| Local food miles | Avg distance (miles) from source to HARVEST for produce received | miles | Sustainability | Distribution | Agriculture | Quarterly | UAC Lead | System-calculated |  | UAC Partner | Environmental List | Active |
-| Food captured for nutritional/wellness demos | lbs and $ value of food used in demos instead of being wasted | lbs / $ | Sustainability; Utilization | Recovery-Waste | Healthcare | Per event | HARVEST Lead | Form submission |  | Culinary Manager | Environmental List | Active |
+| KPI | Definition | Unit | OFSA Dimension(s) | Cadence | 2026 Target | Owner | Source Log | Status |
+|---|---|---|---|---|---|---|---|---|
+| Food waste diversion (lbs) | lbs diverted from landfill | lbs | Sustainability | Monthly | 1,000 | Logistics Manager | Kitchen_Operations_Log.xlsx | Active |
+| Composted (lbs) | lbs composted | lbs | Sustainability | Monthly | — | Logistics Manager | Kitchen_Operations_Log.xlsx | Active |
+| Local food miles (avg) | Avg distance from source to HARVEST | miles | Sustainability | Quarterly | — | Director | UAC_Farmer_Engagement_Log.xlsx | Active |
+| Food captured for demos (lbs) | lbs used in demos vs. wasted | lbs | Sustainability; Utilization | Per event | — | Culinary Manager | Culinary_Training_Log.xlsx | Active |
 
 ---
 
 ## 2026 Performance Goals — KPI links
 
-These are the metrics that roll up to the Director's annual review goals
-and appear on the **2026 Performance Goals** tab of the master workbook.
-
-| Goal | Sub-goal | Linked KPI | 2026 Target | Tracking |
+| Goal | Sub-goal | Linked KPI | 2026 Target | Source |
 |---|---|---|---|---|
-| 1. Kitchen launch / operations | Founding cohort of members | Entrepreneurs converted to renting members | 5–10 | KPI system |
-| 1. Kitchen launch / operations | ServSafe achievement | % members achieving ServSafe | 100% of cohort | KPI system |
-| 1. Kitchen launch / operations | Rental hours utilization | Kitchen hours rented | 1,500 | KPI system (Food Corridor) |
-| 2. Structural documentation | Guiding documents and SOPs | — | n/a — tracked in shared drive folder | **Outside KPI system** |
-| 3. UAC partnership maintenance | JSC meeting cadence | JSC meetings held (Director Form) | Up to 10 | KPI system |
-| 3. UAC partnership maintenance | Shared data framework | This system being operational | Live by Q1 | KPI system (binary status) |
-| 3. UAC partnership maintenance | UAC-affiliated farmers engaged | Farms engaged | ≥ 4 | KPI system |
-| 4. CAB development | CAB membership | CAB members across sectors | 7–12 across 4+ sectors | KPI system |
-| 4. CAB development | CAB meetings | CAB meetings held | 2 by year-end | KPI system |
-| 5. Professional development | Shared Kitchen Summit | Director's Form — PD log entry | 1 (attendance) | KPI system |
-| 5. Professional development | ServSafe Manager Cert (Director) | Director's Form — PD log entry | 1 (pass) | KPI system |
-| 5. Professional development | Community presentations | Director's Form — presentations | Up to 4 | KPI system |
-
-**Note on Goal 2.** Structural documentation (SOPs, guiding docs) is
-intentionally tracked outside this KPI system — a shared drive folder
-with a simple checklist is the right tool. The README repeats this so
-the omission isn't read as a gap.
+| 1. Kitchen launch | Founding cohort | Entrepreneurs converted to members | 8 | Kitchen Ops Log |
+| 1. Kitchen launch | ServSafe achievement | % members achieving ServSafe | 100% | Culinary Log |
+| 1. Kitchen launch | Rental hours | Kitchen hours rented | 1,500 | Food Corridor CSV |
+| 2. Structural documentation | SOPs | — | n/a | **Outside KPI system** |
+| 3. UAC partnership | JSC meetings | JSC meetings held | 10 | Director Log |
+| 3. UAC partnership | Shared data framework | This system operational | Live | Binary |
+| 3. UAC partnership | Farmers engaged | Farms engaged | 4 | UAC Farmer Log |
+| 4. CAB development | CAB membership | CAB members onboarded | 10 | Director Log |
+| 4. CAB development | CAB meetings | CAB meetings held | 2 | Director Log |
+| 5. Professional development | Shared Kitchen Summit | PD log | 1 | Director Log |
+| 5. Professional development | ServSafe Manager Cert | PD log | 1 | Director Log |
+| 5. Professional development | Community presentations | PD log | 4 | Director Log |

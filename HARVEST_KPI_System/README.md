@@ -1,238 +1,142 @@
 # HARVEST Food Hub — KPI Tracking System
 
-A complete KPI tracking system for HARVEST Food Hub. Captures data
-from HARVEST staff and external UAC partners, stores it in SharePoint,
-tags every metric to the OFSA Six Dimensions of Food Security, and
-rolls up to a master Excel dashboard for the JSC, funders, and the
-Director's annual review.
+A complete KPI tracking system for HARVEST Food Hub. Each staff member
+keeps their own Excel log workbook. A master workbook reads from all
+five logs via Power Query and renders dashboards for the JSC, funders,
+and the Director's annual review. Every metric is tagged to the OFSA
+Six Dimensions of Food Security.
 
-## What this is
-
-Five Microsoft Forms feed six SharePoint Lists. Power Automate routes
-submissions to the right List. An Excel master workbook reads from
-those Lists via Power Query and renders dashboards (Executive Summary,
-By OFSA Dimension, By Audience, 2026 Performance Goals). Food Corridor
-CSV exports drop into a dedicated tab to bring in kitchen rental hours
-without manual re-entry.
-
-The system is built on the M365 stack you already have. No new
-licenses. No third-party SaaS. UAC partners submit via an anonymous
-public Form link — no M365 license needed on their side.
-
-## Architecture
+## How it works
 
 ```
-                    +------------------------------+
-                    |   Microsoft Forms (x5)       |
-                    |   - Kitchen Operations       |
-                    |   - Culinary & Training      |
-                    |   - Community Engagement     |
-                    |   - Director & Partnership   |
-                    |   - UAC Farmer Engagement    |   <- external/public link
-                    +--------------+---------------+
-                                   |
-                                   v
-                    +------------------------------+
-                    |   Power Automate flows       |
-                    |   (route + notify)           |
-                    +--------------+---------------+
-                                   |
-                                   v
-                    +------------------------------+
-                    |   SharePoint Lists (x6)      |
-                    |   - Food Entrepreneurs       |
-                    |   - Institution              |
-                    |   - Community Orgs           |
-                    |   - Investors-Funders        |
-                    |   - Farmers                  |
-                    |   - Environmental            |
-                    +--------------+---------------+
-                                   |
-        +--------------------------+--------------------------+
-        |                                                     |
-        v                                                     v
-+-----------------+                              +------------------------+
-| Food Corridor   |  -- CSV drop -->             | Excel master workbook  |
-| (external SaaS) |                              | (Power Query connects) |
-+-----------------+                              +------------------------+
-                                                              |
-                                                              v
-                                                  +-----------------------+
-                                                  | Dashboards            |
-                                                  | - Executive Summary   |
-                                                  | - By OFSA Dimension   |
-                                                  | - By Audience         |
-                                                  | - 2026 Performance    |
-                                                  +-----------------------+
+  Staff Log Workbooks (one per role, in SharePoint/OneDrive)
+  ├── Kitchen_Operations_Log.xlsx       (Logistics Manager, weekly)
+  ├── Culinary_Training_Log.xlsx        (Culinary Manager, per event)
+  ├── Community_Engagement_Log.xlsx     (Community Outreach, per event)
+  ├── Director_Partnership_Log.xlsx     (Director, monthly + events)
+  └── UAC_Farmer_Engagement_Log.xlsx    (Director for UAC, monthly)
+              │
+              ▼  Power Query
+  HARVEST_KPI_Master.xlsx  ◄── Food Corridor CSV
+              │
+              ▼
+  Dashboards: Executive Summary, By OFSA Dimension,
+              By Audience, 2026 Performance Goals
 ```
+
+No SharePoint Lists, no Forms, no complex automation. Staff open
+their workbook, add rows, save. The Director refreshes the master
+workbook to see updated dashboards.
+
+UAC farmer data is entered by HARVEST staff on behalf of UAC partners
+(from a monthly call/email), so no external access is needed.
 
 ## Prerequisites
 
-- **Microsoft 365** for the HARVEST team (E3 or higher). UAC partners
-  do not need a license.
-- **SharePoint Online** site for HARVEST (existing site reused, or a
-  new site created — either is fine).
-- **Power Automate** standard connectors (no premium tier needed).
+- **Microsoft 365** for the HARVEST team (any tier with Excel and
+  SharePoint/OneDrive).
 - **Food Corridor** export access for the Logistics Manager.
-- **For the provisioning script (optional)**: PowerShell 7+ and the
-  PnP.PowerShell module (`Install-Module -Name PnP.PowerShell -Scope CurrentUser`).
-  If your tenant blocks the module, use the manual setup path —
-  everything works without it.
+- **Monthly Power Automate flow or recurring calendar event** for
+  reminders (optional but recommended — see `schemas/monthly_reminders.md`).
 
 ## File map
 
 | File | Purpose |
 |---|---|
-| `README.md` | This file. Start here. |
-| `HARVEST_KPI_Master.xlsx` | The user-facing deliverable. Dashboards live here. |
-| `build_kpi_workbook.py` | Regenerates the workbook (Python, openpyxl). Don't run unless you need a clean rebuild — you'll lose any Power Query connections you added. |
-| `schemas/sharepoint_lists.md` | Column definitions for each List + manual setup walkthrough. |
-| `schemas/microsoft_forms.md` | Question-by-question spec for each Form + setup walkthrough. |
-| `schemas/power_automate_flows.md` | Flow logic, triggers, field mappings, error handling. |
-| `scripts/provision_lists.ps1` | PnP PowerShell script that creates all six Lists. |
-| `docs/kpi_catalog.md` | The full enriched KPI catalog. Source of truth. |
-| `docs/ofsa_dimensions_reference.md` | OFSA Six Dimensions definitions + tagging guidance. |
-| `docs/role_assignments.md` | Who owns what; weekly/monthly cadence. |
-| `docs/data_dictionary.md` | Field definitions + Power Query M code (paste-ready). |
-| `samples/food_corridor_sample.csv` | Sample Food Corridor export structure (v1 minimal schema). |
-| `samples/seed_data_sample.csv` | Sample rows for each List, for dashboard testing. |
+| `HARVEST_KPI_Master.xlsx` | Master dashboard workbook. The deliverable. |
+| `logs/Kitchen_Operations_Log.xlsx` | Logistics Manager's log |
+| `logs/Culinary_Training_Log.xlsx` | Culinary Manager's log |
+| `logs/Community_Engagement_Log.xlsx` | Community Outreach Specialist's log (includes Survey Responses tab) |
+| `logs/Director_Partnership_Log.xlsx` | Director's log |
+| `logs/UAC_Farmer_Engagement_Log.xlsx` | UAC farmer data (entered by HARVEST staff) |
+| `build_kpi_workbook.py` | Regenerates all workbooks (Python, openpyxl) |
+| `schemas/monthly_reminders.md` | Power Automate reminder setup |
+| `docs/kpi_catalog.md` | Full enriched KPI catalog — source of truth |
+| `docs/ofsa_dimensions_reference.md` | OFSA Six Dimensions definitions + tagging |
+| `docs/role_assignments.md` | Who owns what; cadence |
+| `docs/data_dictionary.md` | Field definitions + Power Query M code |
+| `samples/food_corridor_sample.csv` | Sample Food Corridor export |
+| `samples/seed_data_sample.csv` | Sample rows for testing |
 
 ## Setup checklist (one-time)
 
-Estimated total: **3–4 hours**, in order.
+Estimated total: **45 minutes**.
 
-### 1. Prepare the SharePoint site (5 min)
+### 1. Save files to SharePoint/OneDrive (5 min)
 
-- Pick an existing HARVEST SharePoint site, or create a new one
-  (`https://[tenant].sharepoint.com/sites/HARVEST`). Note the full URL.
+Upload the entire `HARVEST_KPI_System/` folder to the HARVEST
+SharePoint site. Keep the folder structure intact — the master
+workbook's Power Query connections reference the `logs/` subfolder.
 
-### 2. Create the SharePoint Lists (15 min via script, ~2 hours manual)
+### 2. Wire up Power Query in the master workbook (20 min)
 
-**Option A — script (recommended):**
-```powershell
-Install-Module -Name PnP.PowerShell -Scope CurrentUser
-cd scripts
-.\provision_lists.ps1 -SiteUrl https://[tenant].sharepoint.com/sites/HARVEST
-```
-The script is idempotent — safe to re-run if you need to add new columns later.
+1. Open `HARVEST_KPI_Master.xlsx` in Excel desktop.
+2. Set the `LogsFolder` parameter to the SharePoint path of the
+   `logs/` folder (instructions in `docs/data_dictionary.md`).
+3. Add one Power Query connection per Data tab (7 total) using the
+   M code in `docs/data_dictionary.md`.
+4. Click **Data > Refresh All**. Dashboards populate from the sample
+   data in the log workbooks.
 
-**Option B — manual UI:** Follow `schemas/sharepoint_lists.md`, section
-"Manual setup walkthrough — Path B".
+### 3. Distribute log workbooks (5 min)
 
-### 3. Enable external sharing on the Farmers List (5 min)
+Send each role owner the SharePoint link to their log workbook:
+- Logistics Manager → `Kitchen_Operations_Log.xlsx`
+- Culinary Manager → `Culinary_Training_Log.xlsx`
+- Community Outreach Specialist → `Community_Engagement_Log.xlsx`
+- Director keeps `Director_Partnership_Log.xlsx` + `UAC_Farmer_Engagement_Log.xlsx`
 
-Required for UAC partners (external submitters) to see/edit it
-directly. See `schemas/sharepoint_lists.md`, section "External sharing
-setup (Farmers List only)". This may require a SharePoint admin
-depending on your tenant's policy.
+### 4. Set up monthly reminders (10 min)
 
-### 4. Create the five Microsoft Forms (60 min total)
+Follow `schemas/monthly_reminders.md` — either a Power Automate
+scheduled flow or a recurring Outlook calendar event on the 1st of
+each month.
 
-For each Form, follow the per-Form setup in `schemas/microsoft_forms.md`:
-- Kitchen Operations Log (Logistics Manager owns)
-- Culinary & Training Log (Culinary Manager owns)
-- Community Engagement Log (Community Outreach Specialist owns)
-- Director & Partnership Log (Director owns)
-- UAC Farmer Engagement Log (Director owns + Director adds co-owners)
-  — **critical:** set sharing to "Anyone can respond" so external UAC
-  partners can submit without an M365 license.
+### 5. Test (5 min)
 
-### 5. Build the Power Automate flows (60 min total)
+Each role owner opens their log, adds a test row, saves. Director
+opens the master workbook, clicks Refresh All, confirms the test row
+appears on the corresponding Data tab and the dashboard tiles update.
 
-Follow `schemas/power_automate_flows.md`:
-- 5 Form → List flows (one per Form)
-- 1 New entrepreneur onboarding alert
-- 1 Overdue cadence reminder (weekly schedule)
-- 1 Grant entered alert (Teams + email)
-
-Test each Form → List flow with a dummy submission and confirm the row
-appears in the destination List.
-
-### 6. Wire up the Excel workbook (30 min)
-
-1. Save `HARVEST_KPI_Master.xlsx` to the HARVEST SharePoint site (not
-   your Downloads folder).
-2. Open it in Excel desktop or Excel Online.
-3. Set the `HarvestSite` parameter to your SharePoint site URL —
-   instructions in `docs/data_dictionary.md`.
-4. Add one Power Query connection per Data tab, using the M code in
-   `docs/data_dictionary.md` (7 queries total: 6 Lists + Food Corridor).
-5. Click **Data → Refresh All**. Dashboards populate.
-
-### 7. Test with sample data (15 min)
-
-Submit at least one response per Form (use a dummy "Test Test" name).
-Confirm:
-- The row appears in the right SharePoint List within 60 seconds.
-- The Executive Summary dashboard tile increments after Refresh All.
-- The 2026 Goals tab status indicator updates if relevant.
-
-### 8. Share with the team (10 min)
-
-- Send each role owner the link to their Form.
-- Send the Director's calendar a recurring monthly reminder to refresh
-  the workbook before the JSC meeting.
-- Add a link to the workbook in the HARVEST Teams channel.
+Delete sample/test rows once real data is flowing.
 
 ---
 
-## Daily / weekly / monthly operating rhythm
+## Operating rhythm
 
-See `docs/role_assignments.md` for the full breakdown. Summary:
-
-| Cadence | Owner | What |
+| Cadence | Who | What |
 |---|---|---|
-| Weekly (Mon) | Logistics Manager | Submit Kitchen Operations Log |
-| Per event | Culinary / Outreach Mgrs | Submit Form within 48 hours |
-| Monthly (1st) | UAC Partner | Submit Farmer Engagement Log |
-| Monthly (1st) | Director | Submit Partnership Log; drop Food Corridor CSV |
-| Monthly (2nd week) | Director | Refresh + review |
-| Per JSC | Director | Refresh + screenshot for meeting |
-| Quarterly | Director | Update SROI, earned revenue, sales growth |
-| Annually | Director | Annual review using 2026 Goals tab |
+| Weekly | Logistics Manager | Add rows to Kitchen Operations Log |
+| Per event | Culinary / Outreach | Add rows within 48 hours |
+| Monthly (1st) | Director | Update Director + UAC logs; get Food Corridor CSV |
+| Monthly (2nd week) | Director | Refresh master workbook, review dashboards |
+| Before each JSC | Director | Refresh, screenshot 2026 Goals + Exec Summary |
+| Quarterly | Director | Update earned revenue %, member sales growth |
 
 ---
 
 ## Troubleshooting
 
-**A Form submission isn't appearing in the List.**
-1. Check the Power Automate flow run history (Power Automate → My flows
-   → click the flow → Run history). Look for a red X.
-2. Click the failed run to see the exact error. Most common: a Form
-   question was renamed but the flow still references the old name.
-3. Fix the field mapping in the flow's "Create item" action.
+**The master workbook won't refresh.**
+- Check Power Query connections: Data > Queries & Connections >
+  right-click a query > Properties. Confirm the `LogsFolder` parameter
+  points to the right SharePoint path.
+- If you see credential errors: Data > Data Source Settings > select
+  the SharePoint URL > Edit Permissions > sign in.
 
-**The Excel workbook won't refresh.**
-1. Check the SharePoint connection in Data → Queries & Connections →
-   right-click query → Properties. Confirm the site URL matches.
-2. If you see "credentials" errors, click Data → Get Data → Data Source
-   Settings → select the SharePoint URL → Edit Permissions → Edit →
-   sign in with your RWJBH account.
+**A dashboard tile shows 0 when there should be data.**
+- Open the corresponding Data tab. Are there rows?
+- If empty, the Power Query connection isn't working — check the path.
+- If rows exist, check that the table name is correct (e.g.,
+  `tbl_Director`, not `tbl_Director_1`).
 
-**A dashboard cell shows `#REF!` or `#NAME?`.**
-1. The most likely cause is a table or column was renamed. Open the
-   formula and confirm `tbl_Funders[Activity_Type]` (etc.) match the
-   actual table names.
-2. Check Formulas → Name Manager for stale references.
+**A formula shows `#REF!` or `#NAME?`.**
+- A table or column was likely renamed. Open the formula, check that
+  structured references match actual table/column names.
 
-**The UAC Form rejects an external submitter.**
-1. In Microsoft Forms, open the Form → Settings (…) → confirm "Anyone
-   can respond" is selected. If it's not, the form is tenant-restricted
-   and external users get a sign-in prompt.
-
-**The provisioning script fails on connect.**
-1. If you see "Cannot find module PnP.PowerShell," install it:
-   `Install-Module -Name PnP.PowerShell -Scope CurrentUser`.
-2. If you see a tenant authorization error, your tenant may require an
-   admin to consent to the PnP app. Ask SharePoint admin to register
-   the PnP Management Shell app, OR use the manual UI path in
-   `schemas/sharepoint_lists.md`.
-
-**A dashboard formula returns 0 when there should be data.**
-1. Confirm the Data tab actually has rows (open the tab; scroll down).
-2. Confirm the Excel Table on that tab is named correctly
-   (`tbl_Funders` not `tbl_Funders_1`). Tables get renumbered when you
-   delete and recreate them.
+**Staff can't open their log workbook.**
+- Confirm SharePoint/OneDrive sharing permissions. Each role owner
+  needs Edit access to their own log file.
 
 ---
 
@@ -240,46 +144,33 @@ See `docs/role_assignments.md` for the full breakdown. Summary:
 
 ### Adding a new KPI
 
-1. Add a row to `docs/kpi_catalog.md` with all tagging fields populated.
-2. Decide which Form / List it lands in. Update
-   `schemas/microsoft_forms.md` (add the question) and
-   `schemas/sharepoint_lists.md` (add the column).
-3. Update the Form in the Microsoft Forms UI to add the question.
-4. Add the column to the SharePoint List (rerun the script with the new
-   column added, or add via the UI).
-5. Update the destination Power Automate flow to map the new question.
-6. If the KPI should show on the dashboards, edit
-   `build_kpi_workbook.py` (add to `KPI_CATALOG`) and either rerun the
-   script for a full rebuild OR manually add a row to the KPI Catalog
-   tab + a tile / row in the relevant dashboard tab.
+1. Add a row to `docs/kpi_catalog.md`.
+2. Add columns to the relevant log workbook (open it, click the table
+   header row, add a column to the right).
+3. Update the Power Query M code in `docs/data_dictionary.md` if the
+   new column needs type transformation.
+4. Add a dashboard tile or row in the master workbook.
+
+### Adding a new survey question
+
+No structural change needed. In `Community_Engagement_Log.xlsx`,
+open the **Survey Responses** tab and add rows with the new
+`Question_Text`. The master workbook picks them up on next refresh.
 
 ### Retiring a KPI
 
-1. Change its `Status` in the catalog to `Retired`.
-2. Leave the historical data in the List — don't delete columns.
-3. Remove the KPI from the dashboard tabs (it'll continue to be tagged
-   in the catalog for historical reference).
-
-### Changing a cadence
-
-1. Update `docs/kpi_catalog.md`.
-2. Update the overdue cadence reminder flow if the new cadence falls
-   into a different alert window.
+Change its Status to "Retired" in the catalog. Leave the column in
+the log workbook for historical data. Remove the KPI from dashboard
+tabs.
 
 ---
 
-## Out of scope (intentional)
+## Out of scope
 
-- **Power BI dashboards.** Excel is v1. Power BI is a planned later
-  phase. The OFSA dimension tagging on every KPI is what makes that
-  migration straightforward.
-- **OFSA logic model.** The KPI tagging is the bridge to it. The model
-  itself is built in the next phase using the OFSA template.
-- **Patient-level health outcome data from RWJBH EHR systems.** No PHI
-  is ingested. The "Reduction in readmission costs" KPI is a
-  placeholder until RWJBH provides an aggregate, non-PHI methodology.
-- **Mobile app or Power Apps.** Forms + Excel on mobile is sufficient
-  for v1.
-- **Structural documentation (Goal 2).** SOPs and guiding documents
-  are tracked in the shared drive folder, not in this system. The 2026
-  Performance Goals tab notes this explicitly.
+- **Power BI dashboards** — Excel is v1; Power BI is a later phase.
+- **OFSA logic model** — KPI tagging is the bridge; the model is next.
+- **Patient-level health data** — no PHI. Readmission KPI is a
+  placeholder.
+- **SharePoint Lists and Forms** — removed in favor of direct Excel
+  entry per team feedback.
+- **Structural documentation (Goal 2)** — tracked in the shared drive.
